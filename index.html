@@ -1,0 +1,116 @@
+<!DOCTYPE html><html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Aviator Game Demo</title>
+  <style>
+    body {
+      margin: 0;
+      font-family: Arial, sans-serif;
+      background: #0c0c1c;
+      color: white;
+      text-align: center;
+    }header {
+  background: #111133;
+  padding: 20px;
+  font-size: 24px;
+  font-weight: bold;
+}
+
+#game-area {
+  margin: 40px auto;
+  width: 90%;
+  max-width: 500px;
+  background: #1c1c3c;
+  padding: 30px;
+  border-radius: 12px;
+  box-shadow: 0 0 20px rgba(255, 255, 255, 0.1);
+}
+
+#multiplier {
+  font-size: 48px;
+  color: #4ee44e;
+  margin-bottom: 20px;
+}
+
+button {
+  padding: 12px 24px;
+  font-size: 16px;
+  margin: 10px;
+  cursor: pointer;
+  border: none;
+  border-radius: 8px;
+}
+
+.bet-btn {
+  background: #007bff;
+  color: white;
+}
+
+.cashout-btn {
+  background: #ff4136;
+  color: white;
+}
+
+#log {
+  margin-top: 20px;
+  font-size: 14px;
+  color: #ccc;
+}
+
+footer {
+  font-size: 12px;
+  margin-top: 60px;
+  color: #888;
+}
+
+  </style>
+</head>
+<body>
+  <header>Aviator Game Demo</header>  <div id="game-area">
+    <div id="multiplier">1.00x</div>
+    <button class="bet-btn" onclick="startGame()">Bet</button>
+    <button class="cashout-btn" onclick="cashOut()">Cash Out</button>
+    <div id="log">Click Bet to start</div>
+  </div>  <footer>
+    Developed by Vincent Javeola Technology Company — Demo version for client preview.
+  </footer>  <script>
+    let multiplier = 1.0;
+    let interval;
+    let crashed = false;
+    let cashOutDone = false;
+    let crashPoint;
+
+    function startGame() {
+      multiplier = 1.0;
+      crashed = false;
+      cashOutDone = false;
+      crashPoint = (Math.random() * 3 + 1.5).toFixed(2); // e.g. 1.5x to 4.5x
+      document.getElementById('log').innerText = "Game started...";
+      clearInterval(interval);
+      interval = setInterval(() => {
+        multiplier += 0.05;
+        document.getElementById('multiplier').innerText = multiplier.toFixed(2) + 'x';
+        if (multiplier >= crashPoint) {
+          clearInterval(interval);
+          crashed = true;
+          if (!cashOutDone) {
+            document.getElementById('log').innerText = CRASHED at ${crashPoint}x! You lost.;
+          }
+        }
+      }, 100);
+    }
+
+    function cashOut() {
+      if (crashed) {
+        document.getElementById('log').innerText = "Too late! Already crashed.";
+        return;
+      }
+      if (!cashOutDone) {
+        cashOutDone = true;
+        clearInterval(interval);
+        document.getElementById('log').innerText = You cashed out at ${multiplier.toFixed(2)}x!;
+      }
+    }
+  </script></body>
+</html>
