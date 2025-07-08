@@ -25,16 +25,25 @@
     <div id="log">Click Bet to start</div>
   </div>
   <footer>Developed by Vincent Javeola Technology Company — Demo version for client preview.</footer>
+  
   <script>
-    let multiplier = 1.0, interval, crashed = false, cashOutDone = false, crashPoint;
+    let multiplier = 1.0, 
+    let interval; 
+    let crashed = false; 
+    let cashOutDone = false; 
+    let crashPoint;
+    
     function startGame() {
-      multiplier = 1.0; crashed = false; cashOutDone = false;
+      multiplier = 1.0; 
+      crashed = false; 
+      cashOutDone = false;
       crashPoint = (Math.random()*3 + 1.5).toFixed(2);
       document.getElementById('log').innerText = "Game started...";
       clearInterval(interval);
       interval = setInterval(() => {
         multiplier += 0.05;
-        document.getElementById('multiplier').innerText = multiplier.toFixed(2) + 'x';
+        
+      document.getElementById('multiplier').innerText = multiplier.toFixed(2) + 'x';
         if (multiplier >= crashPoint) {
           clearInterval(interval); crashed = true;
           if (!cashOutDone) document.getElementById('log').innerText = CRASHED at ${crashPoint}x! You lost.;
@@ -42,7 +51,9 @@
       }, 100);
     }
     function cashOut() {
-      if (crashed) return document.getElementById('log').innerText = "Too late! Already crashed.";
+      if (crashed) { document.getElementById('log').innerText = "Too late! Already crashed.";
+                    return';
+                   }
       if (!cashOutDone) {
         cashOutDone = true;
         clearInterval(interval);
